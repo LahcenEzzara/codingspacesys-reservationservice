@@ -1,5 +1,6 @@
 package ma.ensamcasa.codingspacesys.reservationservice.controller;
 
+import ma.ensamcasa.codingspacesys.reservationservice.dto.ReservationDto;
 import ma.ensamcasa.codingspacesys.reservationservice.entity.Reservation;
 import ma.ensamcasa.codingspacesys.reservationservice.service.ReservationService;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,15 @@ public class ReservationController {
 
     // Create a new reservation
     @PostMapping("/create")
-    public ResponseEntity<String> createReservation(@RequestParam String studentEmail, @RequestParam int pcId, @RequestParam int timeSlot) {
-        String response = reservationService.createReservation(studentEmail, pcId, timeSlot);
+    public ResponseEntity<String> createReservation(@RequestBody ReservationDto ReservationDto) {
+        String response = reservationService.createReservation(ReservationDto.getStudentEmail(), ReservationDto.getPcId(), ReservationDto.getTimeSlot());
         return ResponseEntity.ok(response);
     }
 
     // Update an existing reservation
     @PutMapping("/update/{reservationId}")
-    public ResponseEntity<String> updateReservation(@PathVariable Long reservationId, @RequestParam int pcId, @RequestParam int timeSlot) {
-        Optional<Reservation> updatedReservation = reservationService.updateReservation(reservationId, pcId, timeSlot);
+    public ResponseEntity<String> updateReservation(@PathVariable Long reservationId, @RequestBody ReservationDto ReservationDto) {
+        Optional<Reservation> updatedReservation = reservationService.updateReservation(reservationId, ReservationDto.getPcId(), ReservationDto.getTimeSlot());
         if (updatedReservation.isPresent()) {
             return ResponseEntity.ok("Reservation updated successfully.");
         }
@@ -49,7 +50,7 @@ public class ReservationController {
     @GetMapping("/{reservationId}")
     public ResponseEntity<Object> getReservationById(@PathVariable Long reservationId) {
         Optional<Reservation> reservation = reservationService.getReservationById(reservationId);
-        return reservation.<ResponseEntity<Object>>map(res -> ResponseEntity.ok(res)).orElseGet(() -> ResponseEntity.status(404).body("Reservation not found."));
+        return reservation.<ResponseEntity<Object>>map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(404).body("Reservation not found."));
     }
 
     // Get all reservations

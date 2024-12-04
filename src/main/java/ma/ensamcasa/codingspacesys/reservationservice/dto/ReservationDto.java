@@ -1,14 +1,42 @@
 package ma.ensamcasa.codingspacesys.reservationservice.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class ReservationDto {
-    private Long studentId;
-    private Long pcId;
-    private String startTime;
-    private String endTime;
+    private Long id;
 
+    private String studentEmail;
+    private int pcId;
+    private int timeSlot;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getStudentEmail() {
+        return studentEmail;
+    }
+
+    public int getPcId() {
+        return pcId;
+    }
+
+    public int getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setStudentEmail(String studentEmail) {
+        this.studentEmail = studentEmail;
+    }
+
+    public void setPcId(int pcId) {
+        this.pcId = pcId;
+    }
+
+    public void setTimeSlot(int timeSlot) {
+        this.timeSlot = timeSlot;
+    }
 }
